@@ -23,24 +23,33 @@ function start(client) {
     client.onMessage(async message => {
 
         if (message.mimetype) {
-            const [command, opt] = message.text.split(' - ')
+            try {
+                if (!message.mimetype.startsWith('image')) {
+                    throw new Error('Invalid file')
+                }
 
-            if (command.startsWith(prefix + 'cria essa porra')) {
-                await client.sendText(message.from, 'Tô criando caralho, espera aí.');
+                const [command, opt] = message.text.split(' - ')
 
-                console.log(message.mimetype)
+                if (command.startsWith(prefix + 'cria essa porra')) {
+                    await client.sendText(message.from, 'Tô criando caralho, espera aí.');
 
-                const filename = `${message.t}.${mime.extension(message.mimetype)}`;
-                const mediaData = await wa.decryptMedia(message);
 
-                fs.writeFileSync(path.join(__dirname, 'temp', filename), mediaData)
+                    console.log(message.mimetype)
 
-                const baseDir = path.join(__dirname, 'temp', filename)
+                    const filename = `${message.t}.${mime.extension(message.mimetype)}`;
+                    const mediaData = await wa.decryptMedia(message);
 
-                const readImageTemp = fs.readFileSync(baseDir, { encoding: 'base64' })
+                    fs.writeFileSync(path.join(__dirname, 'temp', filename), mediaData)
 
-                await client.sendImageAsSticker(message.from, readImageTemp, { keepScale: true, removebg: opt === 'remove' ? true : false })
+                    const baseDir = path.join(__dirname, 'temp', filename)
 
+                    const readImageTemp = fs.readFileSync(baseDir, { encoding: 'base64' })
+
+                    await client.sendImageAsSticker(message.from, readImageTemp, { keepScale: true, removebg: opt === 'remove' ? true : false })
+
+                }
+            } catch (err) {
+                await client.sendText(message.from, 'Manda uma imagem porra')
             }
         }
 
