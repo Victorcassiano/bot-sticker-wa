@@ -5,7 +5,8 @@
   "author": "Victorcassiano <jose_victor@live.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "node src/index.js"
+    "dev": "node src/index.js",
+    "start": "npm install && node src/index.js"
   },
   "dependencies": {
     "@open-wa/wa-automate": "^4.42.8",

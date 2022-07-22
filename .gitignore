@@ -5,3 +5,6 @@ node_modules
 **.node-persist**
 **_IGNORE_**
 # end managed
+
+yarn.lock
+package-lock.json
