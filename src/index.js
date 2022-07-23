@@ -24,17 +24,13 @@ function start(client) {
 
         if (message.mimetype) {
             try {
-                if (!message.mimetype.startsWith('image')) {
-                    throw new Error('Invalid file')
-                }
-
                 const [command, opt] = message.text.split(' - ')
-
                 if (command.startsWith(prefix + 'cria essa porra')) {
+                    if (!message.mimetype.startsWith('image')) {
+                        throw new Error('Invalid file')
+                    }
+
                     await client.sendText(message.from, 'Tô criando caralho, espera aí.');
-
-
-                    console.log(message.mimetype)
 
                     const filename = `${message.t}.${mime.extension(message.mimetype)}`;
                     const mediaData = await wa.decryptMedia(message);
