@@ -9,7 +9,7 @@
     "start": "npm install && node src/index.js"
   },
   "dependencies": {
-    "@open-wa/wa-automate": "^4.42.8",
+    "@open-wa/wa-automate": "^4.43.2",
     "mime-types": "^2.1.35",
     "nodemon": "^2.0.19"
   }

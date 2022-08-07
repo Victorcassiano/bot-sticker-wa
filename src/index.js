@@ -29,6 +29,9 @@ function start(client) {
                     if (!message.mimetype.startsWith('image')) {
                         throw new Error('Invalid file')
                     }
+                    console.log(message.sender)
+                    console.log('>> pediu para criar uma figurinha')
+                    console.log('>> ' + new Date().toISOString())
 
                     await client.sendText(message.from, 'Tô criando caralho, espera aí.');
 
@@ -42,6 +45,9 @@ function start(client) {
                     const readImageTemp = fs.readFileSync(baseDir, { encoding: 'base64' })
 
                     await client.sendImageAsSticker(message.from, readImageTemp, { keepScale: true, removebg: opt === 'remove' ? true : false })
+
+                    console.log('>> figurinha criada e enviada')
+                    console.log('>> ' + new Date().toISOString())
 
                 }
             } catch (err) {
