@@ -6,13 +6,16 @@ const path = require('path')
 wa.create({
     sessionId: "COVID_HELPER",
     multiDevice: true, //required to enable multiDevice support
-    authTimeout: 60, //wait only 60 seconds to get a connection with the host account device
+    authTimeout: 120, //wait only 60 seconds to get a connection with the host account device
     blockCrashLogs: true,
+    autoRefresh: false,
+    blockAssets: true,
     disableSpins: true,
     headless: true,
     hostNotificationLang: 'PT_BR',
     logConsole: false,
-    popup: true,
+    popup: false,
+    cacheEnabled: false,
     qrTimeout: 0, //0 means it will wait forever for you to scan the qr code
 }).then(client => start(client));
 
@@ -21,7 +24,6 @@ const prefix = '$';
 function start(client) {
 
     client.onMessage(async message => {
-
         if (message.mimetype) {
             try {
                 const [command, opt] = message.text.split(' - ')
@@ -51,7 +53,8 @@ function start(client) {
 
                 }
             } catch (err) {
-                await client.sendText(message.from, 'Manda uma imagem porra')
+                console.log('>> Erro: ' + err)
+                console.log('>> ' + new Date().toISOString())
             }
         }
 
