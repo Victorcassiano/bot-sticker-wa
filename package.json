@@ -11,6 +11,7 @@
   "dependencies": {
     "@open-wa/wa-automate": "^4.43.2",
     "mime-types": "^2.1.35",
+    "node-schedule": "^2.1.0",
     "nodemon": "^2.0.19"
   }
 }

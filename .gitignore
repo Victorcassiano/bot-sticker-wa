@@ -8,3 +8,7 @@ node_modules
 
 yarn.lock
 package-lock.json
+/temp
+*/temp
+/temp/*
+temp/*
