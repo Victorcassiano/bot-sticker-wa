@@ -82,7 +82,7 @@ function start(client) {
 
         if (message.body.startsWith(prefix + 'comandos')) {
             await client.sendText(message.from, 'Comandos:');
-            await client.sendText(message.from, '1 - $cria essa porra\n2 - $cria essa porra - remove (Remove o fundo :D)\n3 - $calaboca quenga\n4 - $minha bolinha\5 - $racha de som');
+            await client.sendText(message.from, '1 - $cria essa porra\n2 - $cria essa porra - remove (Remove o fundo :D)\n3 - $calaboca quenga\n4 - $minha bolinha\n5 - $racha de som');
         }
 
         if (message.body.startsWith(prefix + 'calaboca quenga')) {
