@@ -11,15 +11,15 @@ wa.create({
     sessionId: "COVID_HELPER",
     multiDevice: true, //required to enable multiDevice support
     authTimeout: 120, //wait only 60 seconds to get a connection with the host account device
-    blockCrashLogs: true,
+    blockCrashLogs: false,
     autoRefresh: false,
-    blockAssets: true,
-    disableSpins: true,
+    blockAssets: false,
+    disableSpins: false,
     headless: true,
     hostNotificationLang: 'PT_BR',
     logConsole: false,
     popup: false,
-    cacheEnabled: true,
+    cacheEnabled: false,
     qrTimeout: 0, //0 means it will wait forever for you to scan the qr code
 }).then(client => start(client));
 
@@ -30,7 +30,7 @@ function start(client) {
     //558481879013@c.us pp
 
 
-    nodeSchedule.scheduleJob('0 12 * * *', async function () {
+    nodeSchedule.scheduleJob('0 17 * * *', async function () {
         const numberRadom = Math.floor(Math.random() * (jokers.length - 0 + 1) + 0);
         await client.sendText('558481879013@c.us', jokers[numberRadom])
     });
@@ -82,7 +82,57 @@ function start(client) {
 
         if (message.body.startsWith(prefix + 'comandos')) {
             await client.sendText(message.from, 'Comandos:');
-            await client.sendText(message.from, '1 - $cria essa porra\n2 - $cria essa porra - remove (Remove o fundo :D)');
+            await client.sendText(message.from, '1 - $cria essa porra\n2 - $cria essa porra - remove (Remove o fundo :D)\n3 - $calaboca quenga');
+        }
+
+        if (message.body.startsWith(prefix + 'calaboca quenga')) {
+
+            console.log(message)
+            try {
+                await client.sendFile(message.from, 'C:\\Users\\jose_\\Documents\\NodeJS\\bot-sticker-wpp\\src\\assets\\audio\\calada_quenga.mp3', 'calaboca_quenga.mp3', null, message.id)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+        if (message.body.startsWith(prefix + 'minha bolinha')) {
+
+            console.log(message)
+            try {
+                await client.sendFile(message.from, 'C:\\Users\\jose_\\Documents\\NodeJS\\bot-sticker-wpp\\src\\assets\\audio\\minha_bolinha.opus', 'minha_bolinha.mp3', null, message.id)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+        if (message.body.startsWith(prefix + 'racha de som')) {
+            const randomNumber = Math.floor(Math.random() * (10 - 1 + 1)) + 1;
+            const randomNumberToSticker = Math.floor(Math.random() * (5 - 1 + 1)) + 1;
+            const nameAudio = randomNumber < 10 ? 'racha0' + randomNumber : 'racha' + randomNumber
+
+            try {
+                const baseDirSticker = path.join(__dirname, 'assets/stickers', `racha${randomNumberToSticker}.png`)
+                const baseDirAudio = path.join(__dirname, 'assets/audio', `${nameAudio}.mp3`)
+
+                await client.sendFile(message.from, baseDirAudio, 'minha_bolinha.mp3', null, message.id)
+
+                const readImageTemp = fs.readFileSync(baseDirSticker, { encoding: 'base64' })
+
+                await client.sendImageAsSticker(
+                    message.from,
+                    readImageTemp,
+                    {
+                        keepScale: true,
+                        removebg: false,
+                        author: "Bot amigo de todes",
+                        pack: "bot-sticker"
+                    },
+                )
+
+
+            } catch (error) {
+                console.log(error)
+            }
         }
 
     });
