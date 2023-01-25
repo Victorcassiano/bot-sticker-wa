@@ -82,24 +82,22 @@ function start(client) {
 
         if (message.body.startsWith(prefix + 'comandos')) {
             await client.sendText(message.from, 'Comandos:');
-            await client.sendText(message.from, '1 - $cria essa porra\n2 - $cria essa porra - remove (Remove o fundo :D)\n3 - $calaboca quenga');
+            await client.sendText(message.from, '1 - $cria essa porra\n2 - $cria essa porra - remove (Remove o fundo :D)\n3 - $calaboca quenga\n4 - $minha bolinha\5 - $racha de som');
         }
 
         if (message.body.startsWith(prefix + 'calaboca quenga')) {
-
-            console.log(message)
             try {
-                await client.sendFile(message.from, 'C:\\Users\\jose_\\Documents\\NodeJS\\bot-sticker-wpp\\src\\assets\\audio\\calada_quenga.mp3', 'calaboca_quenga.mp3', null, message.id)
+                const baseDir = path.join(__dirname, 'assets/audio', `calada_quenga.mp3`)
+                await client.sendFile(message.from, baseDir, 'calaboca_quenga.mp3', null, message.id)
             } catch (error) {
                 console.log(error)
             }
         }
 
         if (message.body.startsWith(prefix + 'minha bolinha')) {
-
-            console.log(message)
             try {
-                await client.sendFile(message.from, 'C:\\Users\\jose_\\Documents\\NodeJS\\bot-sticker-wpp\\src\\assets\\audio\\minha_bolinha.opus', 'minha_bolinha.mp3', null, message.id)
+                const baseDir = path.join(__dirname, 'assets/audio', `minha_bolinha.opus`)
+                await client.sendFile(message.from, baseDir, 'minha_bolinha.mp3', null, message.id)
             } catch (error) {
                 console.log(error)
             }
