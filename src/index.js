@@ -35,20 +35,20 @@ function start(client) {
         await client.sendText('558481879013@c.us', jokers[numberRadom])
     });
 
-    client.onMessage(async message => {
+    client.onAnyMessage(async message => {
         if (message.mimetype) {
             try {
                 const [command, opt] = message.text.split(' - ')
                 if (command.startsWith(prefix + 'cria essa porra')) {
                     if (!message.mimetype.startsWith('image')) {
-                        await client.sendText(message.from, 'Arquivo inválido');
+                        await client.sendText(message.chatId, 'Arquivo inválido');
                         throw new Error('Invalid file')
                     }
                     console.log(message.sender)
                     console.log('>> pediu para criar uma figurinha')
                     console.log('>> ' + new Date().toISOString())
 
-                    await client.sendText(message.from, 'Tô criando caralho, espera aí.');
+                    await client.sendText(message.chatId, 'Tô criando caralho, espera aí.');
 
                     const filename = `${message.t}.${mime.extension(message.mimetype)}`;
                     const mediaData = await wa.decryptMedia(message);
@@ -60,7 +60,7 @@ function start(client) {
                     const readImageTemp = fs.readFileSync(baseDir, { encoding: 'base64' })
 
                     await client.sendImageAsSticker(
-                        message.from,
+                        message.chatId,
                         readImageTemp,
                         {
                             keepScale: true,
@@ -81,14 +81,14 @@ function start(client) {
         }
 
         if (message.body.startsWith(prefix + 'comandos')) {
-            await client.sendText(message.from, 'Comandos:');
-            await client.sendText(message.from, '1 - $cria essa porra\n2 - $cria essa porra - remove (Remove o fundo :D)\n3 - $calaboca quenga\n4 - $minha bolinha\n5 - $racha de som');
+            await client.sendText(message.chatId, 'Comandos:');
+            await client.sendText(message.chatId, '1 - $cria essa porra\n2 - $cria essa porra - remove (Remove o fundo :D)\n3 - $calaboca quenga\n4 - $minha bolinha\n5 - $racha de som');
         }
 
         if (message.body.startsWith(prefix + 'calaboca quenga')) {
             try {
                 const baseDir = path.join(__dirname, 'assets/audio', `calada_quenga.mp3`)
-                await client.sendFile(message.from, baseDir, 'calaboca_quenga.mp3', null, message.id)
+                await client.sendFile(message.chatId, baseDir, 'calaboca_quenga.mp3', null, message.id)
             } catch (error) {
                 console.log(error)
             }
@@ -97,7 +97,7 @@ function start(client) {
         if (message.body.startsWith(prefix + 'minha bolinha')) {
             try {
                 const baseDir = path.join(__dirname, 'assets/audio', `minha_bolinha.opus`)
-                await client.sendFile(message.from, baseDir, 'minha_bolinha.mp3', null, message.id)
+                await client.sendFile(message.chatId, baseDir, 'minha_bolinha.mp3', null, message.id)
             } catch (error) {
                 console.log(error)
             }
@@ -112,12 +112,12 @@ function start(client) {
                 const baseDirSticker = path.join(__dirname, 'assets/stickers', `racha${randomNumberToSticker}.png`)
                 const baseDirAudio = path.join(__dirname, 'assets/audio', `${nameAudio}.mp3`)
 
-                await client.sendFile(message.from, baseDirAudio, 'minha_bolinha.mp3', null, message.id)
+                await client.sendFile(message.chatId, baseDirAudio, 'minha_bolinha.mp3', null, message.id)
 
                 const readImageTemp = fs.readFileSync(baseDirSticker, { encoding: 'base64' })
 
                 await client.sendImageAsSticker(
-                    message.from,
+                    message.chatId,
                     readImageTemp,
                     {
                         keepScale: true,
@@ -132,6 +132,105 @@ function start(client) {
                 console.log(error)
             }
         }
+    })
 
-    });
+    // client.onMessage(async message => {
+    //     if (message.mimetype) {
+    //         try {
+    //             const [command, opt] = message.text.split(' - ')
+    //             if (command.startsWith(prefix + 'cria essa porra')) {
+    //                 if (!message.mimetype.startsWith('image')) {
+    //                     await client.sendText(message.from, 'Arquivo inválido');
+    //                     throw new Error('Invalid file')
+    //                 }
+    //                 console.log(message.sender)
+    //                 console.log('>> pediu para criar uma figurinha')
+    //                 console.log('>> ' + new Date().toISOString())
+
+    //                 await client.sendText(message.from, 'Tô criando caralho, espera aí.');
+
+    //                 const filename = `${message.t}.${mime.extension(message.mimetype)}`;
+    //                 const mediaData = await wa.decryptMedia(message);
+
+    //                 fs.writeFileSync(path.join(__dirname, 'temp', filename), mediaData)
+
+    //                 const baseDir = path.join(__dirname, 'temp', filename)
+
+    //                 const readImageTemp = fs.readFileSync(baseDir, { encoding: 'base64' })
+
+    //                 await client.sendImageAsSticker(
+    //                     message.from,
+    //                     readImageTemp,
+    //                     {
+    //                         keepScale: true,
+    //                         removebg: opt === 'remove' ? true : false,
+    //                         author: "Bot amigo de todes",
+    //                         pack: "bot-sticker"
+    //                     },
+    //                 )
+
+    //                 console.log('>> figurinha criada e enviada')
+    //                 console.log('>> ' + new Date().toISOString())
+
+    //             }
+    //         } catch (err) {
+    //             console.log('>> Erro: ' + err)
+    //             console.log('>> ' + new Date().toISOString())
+    //         }
+    //     }
+
+    //     if (message.body.startsWith(prefix + 'comandos')) {
+    //         await client.sendText(message.from, 'Comandos:');
+    //         await client.sendText(message.from, '1 - $cria essa porra\n2 - $cria essa porra - remove (Remove o fundo :D)\n3 - $calaboca quenga\n4 - $minha bolinha\n5 - $racha de som');
+    //     }
+
+    //     if (message.body.startsWith(prefix + 'calaboca quenga')) {
+    //         try {
+    //             const baseDir = path.join(__dirname, 'assets/audio', `calada_quenga.mp3`)
+    //             await client.sendFile(message.from, baseDir, 'calaboca_quenga.mp3', null, message.id)
+    //         } catch (error) {
+    //             console.log(error)
+    //         }
+    //     }
+
+    //     if (message.body.startsWith(prefix + 'minha bolinha')) {
+    //         try {
+    //             const baseDir = path.join(__dirname, 'assets/audio', `minha_bolinha.opus`)
+    //             await client.sendFile(message.from, baseDir, 'minha_bolinha.mp3', null, message.id)
+    //         } catch (error) {
+    //             console.log(error)
+    //         }
+    //     }
+
+    //     if (message.body.startsWith(prefix + 'racha de som')) {
+    //         const randomNumber = Math.floor(Math.random() * (10 - 1 + 1)) + 1;
+    //         const randomNumberToSticker = Math.floor(Math.random() * (5 - 1 + 1)) + 1;
+    //         const nameAudio = randomNumber < 10 ? 'racha0' + randomNumber : 'racha' + randomNumber
+
+    //         try {
+    //             const baseDirSticker = path.join(__dirname, 'assets/stickers', `racha${randomNumberToSticker}.png`)
+    //             const baseDirAudio = path.join(__dirname, 'assets/audio', `${nameAudio}.mp3`)
+
+    //             await client.sendFile(message.from, baseDirAudio, 'minha_bolinha.mp3', null, message.id)
+
+    //             const readImageTemp = fs.readFileSync(baseDirSticker, { encoding: 'base64' })
+
+    //             await client.sendImageAsSticker(
+    //                 message.from,
+    //                 readImageTemp,
+    //                 {
+    //                     keepScale: true,
+    //                     removebg: false,
+    //                     author: "Bot amigo de todes",
+    //                     pack: "bot-sticker"
+    //                 },
+    //             )
+
+
+    //         } catch (error) {
+    //             console.log(error)
+    //         }
+    //     }
+
+    // });
 }
